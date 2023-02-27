@@ -1,0 +1,55 @@
+abstract class Department {
+    protected employees: string[] = []
+
+    constructor(private readonly id: string, public name: string) { }
+
+    describe(this: Department) {
+        console.log(`Department (id ${this.id}) is: ${this.name}`);
+    }
+
+    addEmployee(name: string) {
+        this.employees.push(name);
+    }
+
+    printEmployeesInfo() {
+        console.log(this.employees.length);
+        console.log(this.employees);
+    }
+
+    abstract printInfo(this: Department): void;
+}
+
+class ITDepartment extends Department {
+    admins: string[]
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT');
+        this.admins = admins
+    }
+    printInfo(this: Department): void {
+        throw new Error("Method not implemented.");
+    }
+}
+
+class AccountingDepartment extends Department {
+    addEmployee(name: string): void {
+        if (name === 'Vlad') {
+            return;
+        }
+
+        this.employees.push(name);
+    }
+    printInfo(this: Department): void {
+        throw new Error("Method not implemented.");
+    }
+}
+
+const accounting = new ITDepartment('itDep', ['Vlad']);
+
+accounting.addEmployee('Vlad');
+accounting.addEmployee('Tania');
+
+accounting.describe();
+accounting.printEmployeesInfo();
+
+console.log(accounting);
+
